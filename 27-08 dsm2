@@ -1,0 +1,104 @@
+//  App.tsx
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Afternoon, CepPage, Morning, Night } from "./pages";
+import { CepProvider } from "./contexts/CepContext";
+
+function App() {
+  return (
+    <CepProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/manha" element={<Morning />} />
+          <Route path="/tarde" element={<Afternoon />} />
+          <Route path="/noite" element={<Night />} />
+          <Route path="/cep" element={<CepPage />} />
+          <Route path="*" element={<Morning />} />
+        </Routes>
+      </BrowserRouter>
+    </CepProvider>
+  );
+}
+
+export default App;
+
+
+// types/index.ts
+
+
+export interface CepContextProps {
+    cep: CepProps | null;
+    handle: (nro:string) => void;
+}
+
+export interface CepProps {
+    cep: string;
+    logradouro: string;
+    complemento: string;
+    unidade: string;
+    bairro: string;
+    localidade: string;
+    uf: string;
+    ibge: string;
+    gia: string;
+    ddd: string;
+    siafi: string;
+  }
+
+// contexts/CepContext.tsx
+import { createContext, useState } from "react";
+import { CepContextProps, CepProps } from "../types";
+import Cep from "../services/Cep";
+
+export const CepContext = createContext({} as CepContextProps);
+
+export function CepProvider({children}:any){
+    const [cep,setCep] = useState<CepProps | null>(null);
+
+    const handle = async function(nro:string){
+        const response = await Cep.get(nro);
+        setCep(response);
+    }
+
+    return <CepContext.Provider value={{cep, handle}}>
+        {children}
+    </CepContext.Provider>
+}
+
+// pages/CepPage.tsx
+import { useContext, useState } from "react";
+import { CepContext } from "../contexts/CepContext";
+
+export default function CepPage() {
+  const [entrada, setEntrada] = useState("");
+  const {cep, handle} = useContext(CepContext);
+
+  return (
+    <div>
+      <input 
+        value={entrada} 
+        onChange={(e) => setEntrada(e.target.value)} 
+      />
+      <button onClick={() => handle(entrada)}>Obter</button>
+      <div>
+        <div>Logradouro: {cep?.logradouro}</div>
+        <div>Localidade: {cep?.localidade}</div>
+        <div>UF: {cep?.uf}</div>
+      </div>
+    </div>
+  );
+}
+
+
+// pages/index.ts
+import Afternoon from "./Afternoon";
+import CepPage from "./CepPage";
+import Morning from "./Morning";
+import Night from "./Night";
+
+export {
+    Morning,
+    Afternoon,
+    Night,
+    CepPage
+};
