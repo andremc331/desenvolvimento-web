@@ -3,7 +3,7 @@ import useLottery from "../hooks/useLottery";
 import LotteryResult from "../components/LotteryResultProps";
 import styled from "styled-components";
 
-const Home: React.FC = () => {
+const Mega: React.FC = () => {
   const { megasena, loading, error } = useLottery();
 
   // Exibe mensagem de carregamento enquanto os dados estão sendo carregados
@@ -24,7 +24,7 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Mega;
 
 const Loading = styled.div`
   display: flex;
@@ -36,8 +36,11 @@ const Loading = styled.div`
 
 const Resultado = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  font-size: 1.5rem;
+  min-height: 100vh;
+  background-color: ${({ theme }) => theme.colors.panelBackground};
+  text-align: center;
+  padding: 20px;
 `;

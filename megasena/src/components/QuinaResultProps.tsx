@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { LotteryResultProps } from "../types";
+import { QuinaResultProps } from "../types";
 
-const LotteryResult: React.FC<LotteryResultProps> = ({ megasena }) => {
+const QuinaResult: React.FC<QuinaResultProps> = ({ quina }) => {
   return (
     <Panel>
-      <h1>Último Sorteio da Mega-Sena</h1>
-      {/* <p><strong>Concurso:</strong> {megasena.numeroDoConcurso}</p>
-      <p><strong>Data de Apuração:</strong> {megasena.dataApuracao}</p>
-      <p><strong>Data do Próximo Concurso:</strong> {megasena.dataProximoConcurso}</p>
-      <p><strong>Valor do Prêmio:</strong> R$ {megasena.valorPremio.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> */}
+      <h1>Último Sorteio da Quina</h1>
+      {/* <p><strong>Concurso:</strong> {quina.numeroDoConcurso}</p>
+      <p><strong>Data de Apuração:</strong> {quina.dataApuracao}</p>
+      <p><strong>Data do Próximo Concurso:</strong> {quina.dataProximoConcurso}</p>
+      <p><strong>Valor do Prêmio:</strong> R$ {quina.valorPremio.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> */}
       <DezenasContainer>
-        {megasena.dezenas.map((dezena, index) => (
+        {quina.dezenas.map((dezena, index) => (
           <Dezena key={index}>{dezena}</Dezena>
         ))}
       </DezenasContainer>
@@ -27,7 +27,6 @@ const Panel = styled.div`
   align-items: center;
   min-height: 100vh;
   background-color: ${({ theme }) => theme.colors.panelBackground};
-  background-color: "white";
   text-align: center;
   padding: 20px;
   font-size: 20px;
@@ -50,4 +49,4 @@ const Dezena = styled.span`
   font-weight: bold;
 `;
 
-export default LotteryResult;
+export default QuinaResult;
